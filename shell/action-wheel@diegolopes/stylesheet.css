@@ -1,0 +1,14 @@
+/* Background and text colors come from the Shell theme's .button and .button.default rules. */
+.action-wheel-button {
+  border-radius: 38px;
+  padding: 0;
+}
+
+.action-wheel-content {
+  spacing: 2px;
+}
+
+.action-wheel-label {
+  font-size: 9pt;
+  font-weight: bold;
+}

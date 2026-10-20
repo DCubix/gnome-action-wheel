@@ -1,0 +1,7 @@
+{
+  "uuid": "action-wheel@diegolopes",
+  "name": "Action Wheel",
+  "description": "Radial action menu for files, opened with Shift+click in Nautilus.",
+  "shell-version": ["46"],
+  "version-name": "1.0"
+}
