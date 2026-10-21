@@ -21,6 +21,17 @@ Clockwise from the top:
 
 Image and video operations write a new file next to the original. The original is never overwritten.
 
+Shift + left-click on empty space in a folder opens the folder wheel. It is not shown in Search, Recent, Trash or remote folders.
+
+| Entry | Does |
+|-------|------|
+| New folder | Asks for a name (starts as "New Folder"), then creates the folder. |
+| New file | Asks for a name and extension, then creates an empty file. |
+| Paste | Pastes copied or cut files through Nautilus, so Ctrl+Z undoes it. |
+| Terminal | Opens the default terminal in the folder. |
+
+The desktop is not supported. On Zorin OS it is drawn by `zorin-desktop-icons`, which does not load Nautilus modules.
+
 ## Requirements
 
 | Package | Used for |

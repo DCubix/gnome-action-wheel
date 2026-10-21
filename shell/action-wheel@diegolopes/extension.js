@@ -7,7 +7,7 @@ import St from 'gi://St';
 import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
-import ACTIONS from './actions/index.js';
+import ACTIONS, {FOLDER_ACTIONS} from './actions/index.js';
 
 const DBUS_PATH = '/org/gnome/Shell/Extensions/ActionWheel';
 const DBUS_IFACE = `
@@ -15,6 +15,9 @@ const DBUS_IFACE = `
   <interface name="org.gnome.Shell.Extensions.ActionWheel">
     <method name="Open">
       <arg type="as" direction="in" name="uris"/>
+    </method>
+    <method name="OpenFolder">
+      <arg type="s" direction="in" name="uri"/>
     </method>
   </interface>
 </node>`;
@@ -73,7 +76,7 @@ export default class ActionWheelExtension extends Extension {
     enable() {
         const iconDir = this.dir.get_child('icons');
         this._svgs = {};
-        for (const icon of new Set([BACK.icon, ...iconNames(ACTIONS)].filter(Boolean))) {
+        for (const icon of new Set([BACK.icon, ...iconNames([...ACTIONS, ...FOLDER_ACTIONS])].filter(Boolean))) {
             const [, contents] = iconDir.get_child(`${icon}.svg`).load_contents(null);
             this._svgs[icon] = new TextDecoder().decode(contents);
         }
@@ -90,6 +93,15 @@ export default class ActionWheelExtension extends Extension {
     }
 
     Open(uris) {
+        this._open(uris, ACTIONS);
+    }
+
+    // Shift+LMB on empty space in a folder: the folder wheel, with the folder as the only URI.
+    OpenFolder(uri) {
+        this._open([uri], FOLDER_ACTIONS);
+    }
+
+    _open(uris, entries) {
         this._close();
         [this._px, this._py] = global.get_pointer();
         this._uris = uris;
@@ -117,7 +129,7 @@ export default class ActionWheelExtension extends Extension {
         Main.layoutManager.uiGroup.add_child(backdrop);
         this._backdrop = backdrop;
         this._grab = Main.pushModal(backdrop);
-        this._showPage(ACTIONS);
+        this._showPage(entries);
     }
 
     _showPage(entries) {

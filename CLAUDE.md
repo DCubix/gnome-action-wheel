@@ -4,9 +4,9 @@ Shift + left-click on a file in Nautilus opens a radial action menu drawn by GNO
 
 ## How it fits together
 
-1. `nautilus/action-wheel.vala` is a Nautilus extension module (`.so`). It adds a capture-phase Shift+LMB gesture to every Nautilus window, finds the file URI under the pointer, and on release calls D-Bus `org.gnome.Shell.Extensions.ActionWheel.Open(as uris)` on `/org/gnome/Shell/Extensions/ActionWheel`.
+1. `nautilus/action-wheel.vala` is a Nautilus extension module (`.so`). It adds a capture-phase Shift+LMB gesture to every Nautilus window, finds the file URI under the pointer, and on release calls D-Bus `org.gnome.Shell.Extensions.ActionWheel.Open(as uris)` on `/org/gnome/Shell/Extensions/ActionWheel`. On empty space in a local folder view it calls `OpenFolder(s uri)` with the folder URI instead.
 2. `shell/action-wheel@diegolopes/extension.js` exports that D-Bus method and draws the wheel at the pointer. It also handles sub-pages, the Back button, animations, and mime filtering.
-3. `shell/action-wheel@diegolopes/actions/` has one file per top-level wheel entry. `actions/index.js` sets the order. To add an action, follow `actions/README.md`.
+3. `shell/action-wheel@diegolopes/actions/` has one file per top-level wheel entry. `actions/index.js` sets the order: the default export is the file wheel, `FOLDER_ACTIONS` is the folder wheel. To add an action, follow `actions/README.md`.
 4. `editor.js` is a separate GJS GTK4/Adw process for crop and rotate, started by the Image → Edit action. `trim.js` is the same kind of process for cutting a video, started by Video → Trim.
 5. `util.js` has helpers shared by the Shell side and the editor. It imports only GLib, because the editor cannot load Shell modules. Shell-only helpers go in `actions/shell.js`.
 

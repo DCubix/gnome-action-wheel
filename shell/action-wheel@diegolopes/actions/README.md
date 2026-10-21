@@ -18,6 +18,10 @@ Each top-level entry on the wheel is one file in this folder. `index.js` lists t
 3. Import the file in `index.js` and add it to the exported list where it should appear.
 4. Restart the Shell (Alt+F2 → r on X11, log out and in on Wayland). GNOME Shell does not reload extension modules without a restart.
 
+## Folder wheel
+
+Shift+LMB on empty space in a folder opens a second wheel. Its entries are `FOLDER_ACTIONS` in `index.js`. They use the same entry fields, and `run(uris)` gets one URI: the folder's. Add a folder action the same way, but put it in `FOLDER_ACTIONS`.
+
 ## Entry fields
 
 | Field | Type | Meaning |
@@ -41,6 +45,8 @@ Mime patterns: `type/*` matches by prefix. Any other value uses `Gio.content_typ
 |--------|------|-----|
 | `run(argv, onDone)` | `./shell.js` | Runs a command without blocking the Shell. On failure it shows stderr in a notification. `onDone` gets stdout as `GLib.Bytes`. |
 | `localPath(uri)` | `./shell.js` | URI to a local path. Throws for non-local files. |
+| `askName(title, name, onName)` | `./shell.js` | Dialog that asks for a file or folder name. Rejects empty names and names with `/`. |
+| `fileOperation(method, ...args)` | `./shell.js` | Calls Nautilus `FileOperations2` (progress, conflict dialogs, Undo). Args are type/value pairs: `fileOperation('CopyURIs', 'as', uris, 's', folderUri)`. |
 | `newPath(path, suffix, ext)` | `../util.js` | Free file name next to `path`: `photo<suffix>.<ext>`, then `photo<suffix> (2).<ext>` and so on. |
 
 Rules for action code:

@@ -14,9 +14,16 @@ import clipboard from './clipboard.js';
 import copyContents from './copy-contents.js';
 import copyPath from './copy-path.js';
 import image from './image.js';
+import newFile from './new-file.js';
+import newFolder from './new-folder.js';
 import open from './open.js';
 import openWith from './open-with.js';
+import paste from './paste.js';
 import sendTo from './send-to.js';
+import terminal from './terminal.js';
 import video from './video.js';
 
 export default [open, openWith, image, video, copyContents, sendTo, clipboard, copyPath];
+
+// The folder wheel, shown on Shift+LMB on empty space in a folder. `run(uris)` gets [folderUri].
+export const FOLDER_ACTIONS = [newFolder, newFile, paste, terminal];
